@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 
+interface Poke {
+    name: String;
+    url: String;
+  
+}
 export default function Index() {
 
-  const [pokemons, setPokemons] = useState([])
+  const [pokemons, setPokemons] = useState<Poke[]>([])
 
+  
 
 useEffect(() => {
   const fetchPokemon = async () => {
@@ -27,7 +33,7 @@ useEffect(() => {
 
       {pokemons.map((pokemon) => (
         <View key={pokemon.name}>
-          {pokemon.name}
+        <Text>{pokemon.name}</Text> 
           </View>
         ))}
 

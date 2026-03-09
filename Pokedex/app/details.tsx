@@ -7,6 +7,7 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
         name: string;
         imageFront: string;
         imageBack: string;
+        id: number,
         types: {
             type: {
                 name: string
@@ -45,6 +46,7 @@ export default function Index() {
                     name: data.name,
                     imageFront: data.sprites.front_default,
                     imageBack: data.sprites.back_default,
+                    id: data.id,
                     types: data.types,
                     height: data.height,
                     weight: data.weight,
@@ -85,7 +87,8 @@ export default function Index() {
       >
           <Text></Text>
           {pokemon && ( //erro ako jo nije fetch prošaop da ne bude sve blank
-              <View style={{ backgroundColor: colorByType[pokemon.types[0].type.name], borderRadius: 25}}>
+              <View style={{ backgroundColor: colorByType[pokemon.types[0].type.name], borderRadius: 25 }}>
+                  <Text style={{ fontSize: 20, fontWeight: 700, textAlign: "start", padding:12 }}>#{pokemon.id}</Text>
                   <Text style={styles.name}>{pokemon.name}</Text>
                     <Text style={styles.text}>{pokemon.types.map((t, index) => (
                       <Text key={index}>
@@ -96,12 +99,32 @@ export default function Index() {
                   <View style={styles.info}>
                   <Image
                     source={{ uri: pokemon.imageFront }}
-                    style={{ width: 200, height: 200 }}
+                    style={{ width: 210, height: 210 }}
                   />
                    <Image
                     source={{ uri: pokemon.imageBack}}
-                    style={{ width: 200, height: 200 }}
+                    style={{ width: 210, height: 210 }}
                       />
+                  </View>
+                  <View style={{ flexDirection: "row", justifyContent:"center", gap:12 }}>
+                      <Text style={styles.wh}>Pokemon height: {pokemon.height}</Text>
+                      <Text style={styles.wh}>Pokemon weight: {pokemon.weight}</Text>
+                  </View>
+                  <Text style={styles.heding}>Stats:</Text>
+                  <View>
+                      {pokemon.stats.map((s, index) => (
+                          <Text style={styles.stats} key={index}>
+                            <Text style={{fontWeight: "800"}}>{s.stat.name}: </Text>   {s.base_stat}
+                          </Text>
+                      ))}
+                  </View>
+                   <Text style={styles.heding}>Abilites:</Text>
+                  <View>
+                      {pokemon.abilities.map((s, index) => (
+                          <Text style={styles.stats} key={index}>
+                             {index+1}. <Text style={{ fontWeight: "800" }}> {s.ability.name}</Text>   
+                          </Text>
+                      ))}
                   </View>
               </View>
               
@@ -117,6 +140,12 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         textAlign: "center",
         marginTop: 5
+    },
+      heding: {
+        fontSize: 25,
+        fontWeight: "bold",
+        textAlign: "left",
+        padding:8
   },
 
   info: {
@@ -131,5 +160,17 @@ const styles = StyleSheet.create({
         padding: 5,
         textAlign: "center",
         
-  },
+    },
+        wh: {
+        fontSize: 15,
+        fontWeight: "500",
+        
+    },
+     stats: {
+        fontSize: 16,
+        fontWeight: "600",
+        marginLeft: 15,
+        padding: 7,
+        textAlign: "left"
+        },
 });

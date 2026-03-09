@@ -74,6 +74,9 @@ useEffect(() => {
         gap: 10,
         padding: 8
       }}
+   contentInsetAdjustmentBehavior="automatic"
+   automaticallyAdjustContentInsets={true}
+      
     > 
       {pokemons.map((pokemon) => (
         <Link key={pokemon.name}

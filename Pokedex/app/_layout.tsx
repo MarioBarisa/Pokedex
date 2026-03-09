@@ -6,6 +6,10 @@ export default function RootLayout() {
       <Stack.Screen name="index"
         options={{
           title: "Home",
+          headerSearchBarOptions: {
+            placeholder: "Search Pokemon",
+          },
+      
       
         }} />
       <Stack.Screen name="details"

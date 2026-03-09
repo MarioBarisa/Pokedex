@@ -25,7 +25,7 @@ const colorByType = {
   bug: "lightgreen",
   normal: "gray",
   electric: "yellow",
-  gorund: "brown",
+  ground: "brown",
   poison: "purple",
   fairy: "pink"
 }
@@ -55,7 +55,7 @@ useEffect(() => {
         })
       )
 
-      console.log(detailedPokemon);
+     // console.log(detailedPokemon);
       setPokemons(detailedPokemon);
 
 
@@ -82,37 +82,40 @@ useEffect(() => {
             //@ts-ignore
           backgroundColor: colorByType[pokemon.types[0].type.name],
             padding: 20,
-            borderRadius: 15
+            borderRadius: 15,
         }}>
         <View key={pokemon.name}
           style={{
             //@ts-ignore
             backgroundColor: colorByType[pokemon.types[0].type.name],
             padding: 20,
-            borderRadius: 15
+            borderRadius: 15,
+            alignItems: "center"
         }}>
           <Text
-            style={styles.name}>  {pokemon.name}</Text>
+            style={styles.name}>{pokemon.name}</Text>
           <Text
-          style={styles.type}> {pokemon.types[0].type.name} type </Text>
-          <View style={{
-            flexDirection: "row",
-            justifyContent: "center"
-          }}>
-          <Image
+          style={styles.type}>{pokemon.types[0].type.name} type</Text>
+            <View style={{
+            justifyContent: "center",
+            alignItems: "center",
+            marginLeft: 80
+            }}>
+            <Image
             source={{ uri: pokemon.imageFront }}
             style={{
               width: 125,
               height: 125,
             }}
-          />
-          <Image
+              />
+            {/* <Image
             source={{ uri: pokemon.imageBack }}
             style={{
               width: 125,
               height: 125,
             }}
-          /></View>
+              /> */}
+            </View>
         </View></Link>
       ))}
     </ScrollView>
@@ -122,15 +125,17 @@ useEffect(() => {
 
 const styles = StyleSheet.create({
   name: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: 'bold',
-    textAlign: "center"
+    textAlign: "center",
+    marginLeft: 80
 
   },
     type: {
       fontSize: 15,
       fontWeight: 'semibold',
-      textAlign: "center"
+      textAlign: "center",
+      marginLeft: 80
 
   }
 

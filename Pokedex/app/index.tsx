@@ -1,6 +1,6 @@
-import { useEffect, useState, } from "react";
+import { useEffect, useMemo ,useState, } from "react";
 import { Image, Pressable, ScrollView, StyleSheet, Text, View,} from "react-native";
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 
 interface Poke {
     name: string;
@@ -32,10 +32,10 @@ const colorByType = {
 
 export default function Index() {
 
-  const [pokemons, setPokemons] = useState<Poke[]>([])
+  const [pokemons, setPokemons] = useState<Poke[]>([]);
+  const [search, setSearch] = useState("");
 
   
-
 useEffect(() => {
   const fetchPokemon = async () => {
     try {
@@ -66,8 +66,23 @@ useEffect(() => {
  fetchPokemon();
 }, [])
 
+  const filteredPokemons = useMemo(() => {
+    return pokemons.filter((pokemons) =>
+      pokemons.name.toLowerCase().includes(search.toLowerCase()));
+  }, [pokemons, search])
 
   return (
+    <> 
+    <Stack.Screen options={{
+      title: "Home",
+      headerSearchBarOptions: {
+        hideWhenScrolling: true,
+        placeholder: "Search Pokemon",
+        onChangeText: (event)=>{
+          setSearch(event.nativeEvent.text);
+        },
+      },
+    }}/>
    
     <ScrollView
     contentContainerStyle ={{
@@ -78,7 +93,7 @@ useEffect(() => {
    automaticallyAdjustContentInsets={true}
       
     > 
-      {pokemons.map((pokemon) => (
+      {filteredPokemons.map((pokemon) => (
         <Link key={pokemon.name}
           href={{pathname: "/details", params: {name: pokemon.name}}}
           style={{
@@ -121,7 +136,7 @@ useEffect(() => {
             </View>
         </View></Link>
       ))}
-    </ScrollView>
+    </ScrollView></>
   );
 }
 
@@ -129,17 +144,14 @@ useEffect(() => {
 const styles = StyleSheet.create({
   name: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     textAlign: "center",
-    marginLeft: 80
-
+    marginLeft: 80,
   },
-    type: {
-      fontSize: 15,
-      fontWeight: 'semibold',
-      textAlign: "center",
-      marginLeft: 80
-
-  }
-
-})
+  type: {
+    fontSize: 15,
+    fontWeight: "600",
+    textAlign: "center",
+    marginLeft: 80,
+  },
+});

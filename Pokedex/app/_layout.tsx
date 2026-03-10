@@ -5,6 +5,7 @@ export default function RootLayout() {
     <Stack>
       <Stack.Screen name="index"
         options={{
+          headerLargeTitle: true,
           title: "Home",
           /* headerSearchBarOptions: {
             placeholder: "Search Pokemon",
@@ -14,6 +15,7 @@ export default function RootLayout() {
         }} />
       <Stack.Screen name="details"
         options={{
+          headerLargeTitle: true,
           title: "Details",
           headerBackButtonDisplayMode: "minimal"
       

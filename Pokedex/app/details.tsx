@@ -80,11 +80,14 @@ export default function Index() {
 
   return (
     <ScrollView
-      contentContainerStyle={{
+    contentContainerStyle ={{
         gap: 10,
         padding: 8
       }}
-      >
+   contentInsetAdjustmentBehavior="automatic"
+   automaticallyAdjustContentInsets={true}
+      
+    > 
           <Text></Text>
           {pokemon && ( //erro ako jo nije fetch prošaop da ne bude sve blank
               <View style={{ backgroundColor: colorByType[pokemon.types[0].type.name], borderRadius: 25 }}>

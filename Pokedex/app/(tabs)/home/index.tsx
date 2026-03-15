@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 
 interface Poke {
   name: string;
@@ -31,12 +31,14 @@ const colorByType = {
 
 export default function HomeIndex() {
   const [pokemons, setPokemons] = useState<Poke[]>([]);
-  const search = "";
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchPokemon = async () => {
       try {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=40");
+        const response = await fetch(
+          "https://pokeapi.co/api/v2/pokemon/?limit=40",
+        );
         const data = await response.json();
 
         const detailedPokemon = await Promise.all(
@@ -49,7 +51,7 @@ export default function HomeIndex() {
               imageBack: details.sprites.back_default,
               types: details.types,
             };
-          })
+          }),
         );
 
         setPokemons(detailedPokemon);
@@ -63,60 +65,72 @@ export default function HomeIndex() {
 
   const filteredPokemons = useMemo(() => {
     return pokemons.filter((pokemons) =>
-      pokemons.name.toLowerCase().includes(search.toLowerCase())
+      pokemons.name.toLowerCase().includes(search.toLowerCase()),
     );
   }, [pokemons, search]);
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        gap: 10,
-        padding: 8,
-      }}
-      contentInsetAdjustmentBehavior="automatic"
-      automaticallyAdjustContentInsets={true}
-    >
-      {filteredPokemons.map((pokemon) => (
-        <Link
-          key={pokemon.name}
-          href={{ pathname: "/details", params: { name: pokemon.name } }}
-          style={{
-            // @ts-ignore
-            backgroundColor: colorByType[pokemon.types[0].type.name],
-            padding: 20,
-            borderRadius: 15,
-          }}
-        >
-          <View
+    <>
+      <Stack.Screen
+        options={{
+          headerSearchBarOptions: {
+            placeholder: "Search Pokemon",
+            onChangeText: (event) => {
+              setSearch(event.nativeEvent.text);
+            },
+          },
+        }}
+      />
+      <ScrollView
+        contentContainerStyle={{
+          gap: 10,
+          padding: 8,
+        }}
+        contentInsetAdjustmentBehavior="automatic"
+        automaticallyAdjustContentInsets={true}
+      >
+        {filteredPokemons.map((pokemon) => (
+          <Link
+            key={pokemon.name}
+            href={{ pathname: "/details", params: { name: pokemon.name } }}
             style={{
               // @ts-ignore
               backgroundColor: colorByType[pokemon.types[0].type.name],
               padding: 20,
               borderRadius: 15,
-              alignItems: "center",
             }}
           >
-            <Text style={styles.name}>{pokemon.name}</Text>
-            <Text style={styles.type}>{pokemon.types[0].type.name} type</Text>
             <View
               style={{
-                justifyContent: "center",
+                // @ts-ignore
+                backgroundColor: colorByType[pokemon.types[0].type.name],
+                padding: 20,
+                borderRadius: 15,
                 alignItems: "center",
-                marginLeft: 80,
               }}
             >
-              <Image
-                source={{ uri: pokemon.imageFront }}
+              <Text style={styles.name}>{pokemon.name}</Text>
+              <Text style={styles.type}>{pokemon.types[0].type.name} type</Text>
+              <View
                 style={{
-                  width: 125,
-                  height: 125,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: 80,
                 }}
-              />
+              >
+                <Image
+                  source={{ uri: pokemon.imageFront }}
+                  style={{
+                    width: 125,
+                    height: 125,
+                  }}
+                />
+              </View>
             </View>
-          </View>
-        </Link>
-      ))}
-    </ScrollView>
+          </Link>
+        ))}
+      </ScrollView>
+    </>
   );
 }
 

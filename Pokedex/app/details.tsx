@@ -1,6 +1,7 @@
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, Stack } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View, Pressable, } from "react-native";
+import { useFavorites } from "@/context/favorites";
 
 
     interface PokemonDetails{
@@ -28,6 +29,8 @@ export default function Index() {
     const [pokemon, setPokemons] = useState<PokemonDetails | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { toggleFavorite, isFavorite } = useFavorites();
+    const favorite = pokemon ? isFavorite(pokemon.name) : false;
     
     useEffect(() => {
         if (!name) return;
@@ -78,16 +81,36 @@ export default function Index() {
             fairy: "pink"
             }
 
-  return (
+    return (
+      <>
+            <Stack.Screen
+                options={{
+                    headerRight: () => pokemon ? (
+                        <Pressable
+                            onPress={() =>
+                                toggleFavorite({
+                                    name: pokemon.name,
+                                    imageFront: pokemon.imageFront,
+                                    id: pokemon.id,
+                                })
+                            }
+                        >
+                            <Text style={{ fontSize: 17, fontWeight: "600", color: "#007AFF" }}>
+                                { favorite ? " Remove ⭐️ " : " Add ⭐️ " }
+                            </Text>
+
+                        </Pressable>
+                    ) : null,
+                        }}
+            />
+
     <ScrollView
     contentContainerStyle ={{
         gap: 10,
         padding: 8
       }}
    contentInsetAdjustmentBehavior="automatic"
-   automaticallyAdjustContentInsets={true}
-      
-    > 
+   automaticallyAdjustContentInsets={true}> 
           <Text></Text>
           {pokemon && ( //erro ako jo nije fetch prošaop da ne bude sve blank
               <View style={{ backgroundColor: colorByType[pokemon.types[0].type.name], borderRadius: 25 }}>
@@ -132,7 +155,7 @@ export default function Index() {
               </View>
               
           )}
-    </ScrollView>
+    </ScrollView></>
   );
 }
 

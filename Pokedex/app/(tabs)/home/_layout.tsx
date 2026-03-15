@@ -10,6 +10,7 @@ export default function HomeLayout() {
           title: "Home",
           headerSearchBarOptions: {
             placeholder: "Search Pokemon",
+            
           },
         }}
       />

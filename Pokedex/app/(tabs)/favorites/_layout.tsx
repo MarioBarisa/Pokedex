@@ -7,7 +7,7 @@ export default function FavoritesLayout() {
         name="index"
         options={{
           headerLargeTitle: true,
-          title: "Your Favorites",
+          title: "Your Favorites:",
         }}
       />
     </Stack>

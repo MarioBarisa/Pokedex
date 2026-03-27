@@ -1,12 +1,12 @@
-import {Text, ScrollView, StyleSheet, TextInput, View} from "react-native";
+import {Text, ScrollView, StyleSheet, TextInput, View, Button} from "react-native";
+import { useState } from "react";
 import { useFavorites } from "@/context/favorites";
-import { Stack } from "expo-router";
 
 
 export default function FavoritesScreen() {
 
   const { favorites } = useFavorites();
-  let loggedIn = false;
+  let [loggedIn, setLoggedIn] = useState(false);
 
 
   return (
@@ -30,6 +30,10 @@ export default function FavoritesScreen() {
               style={styles.systemInput}
             />
 
+              <Button
+                  accessibilityLabel="Login button"
+                  title={"Login"}
+              onPress={()=>setLoggedIn(true)}/>
 
             </View>
           </View>
@@ -68,5 +72,6 @@ const styles = StyleSheet.create({
       fontSize: 17,
       marginHorizontal: 16,
       color: "#000"
-    }
+    },
+
 });

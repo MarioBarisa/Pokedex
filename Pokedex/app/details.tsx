@@ -83,6 +83,7 @@ export default function Index() {
 
     // @ts-ignore
     // @ts-ignore
+    // @ts-ignore
     return (
       <>
             <Stack.Screen
@@ -114,9 +115,10 @@ export default function Index() {
    contentInsetAdjustmentBehavior="automatic"
    automaticallyAdjustContentInsets={true}> 
           <Text></Text>
-          {pokemon && ( //erro ako jo nije fetch prošaop da ne bude sve blank
+          {pokemon && ( //error ako jo nije fetch prošao da ne bude sve blank
+              //@ts-ignore
               <View style={{ backgroundColor: colorByType[pokemon.types[0].type.name], borderRadius: 25 }}>
-                  <Text style={{ fontSize: 20, fontWeight: 700, textAlign: "start", padding:12 }}>#{pokemon.id}</Text>
+                 <Text style={{ fontSize: 20, fontWeight: "700", textAlign: "left", padding: 12 }}>#{pokemon.id}</Text>
                   <Text style={styles.name}>{pokemon.name}</Text>
                     <Text style={styles.text}>{pokemon.types.map((t, index) => (
                       <Text key={index}>

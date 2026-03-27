@@ -1,16 +1,39 @@
-import { Text, ScrollView, Image, StyleSheet, View } from "react-native";
+import {Text, ScrollView, StyleSheet, TextInput, View} from "react-native";
 import { useFavorites } from "@/context/favorites";
-import { Link } from "expo-router";
+import { Stack } from "expo-router";
 
 
 export default function FavoritesScreen() {
 
   const { favorites } = useFavorites();
+  let loggedIn = false;
 
 
   return (
+
     <ScrollView>
-        {/*<Text>Settings</Text>*/}
+        <Text style={styles.text}>{loggedIn ? "Username" : "You are not logged in."}</Text>
+        {!loggedIn && (
+          <View>
+            <Text style={styles.textBodyCenterHiglighted}>Please make an account or log in.</Text>
+            <View style={{padding: 15, gap:8, marginTop:10}}>
+            <TextInput
+              placeholder="Pokedex Username"
+              placeholderTextColor="rgba(60, 60, 67, 0.3)"
+              clearButtonMode="unless-editing"
+              style={styles.systemInput}
+            />
+            <TextInput
+              placeholder="Pokedex Password"
+              placeholderTextColor="rgba(60, 60, 67, 0.3)"
+              clearButtonMode="unless-editing"
+              style={styles.systemInput}
+            />
+
+
+            </View>
+          </View>
+        )}
     </ScrollView>
   );
 }
@@ -21,5 +44,29 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center"
-  }
+  },
+
+  text:{
+    fontSize: 20,
+    paddingTop: 50,
+    paddingBottom: 5,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+
+    textBodyCenterHiglighted: {
+      fontSize: 15,
+      fontWeight: "bold",
+      textAlign: "center"
+    },
+
+    systemInput: {
+      backgroundColor: "rgba(118, 118, 128, 0.12)",
+      borderRadius: 10,
+      paddingHorizontal: 8,
+      paddingVertical: 7,
+      fontSize: 17,
+      marginHorizontal: 16,
+      color: "#000"
+    }
 });

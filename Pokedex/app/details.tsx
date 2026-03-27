@@ -81,6 +81,8 @@ export default function Index() {
             fairy: "pink"
             }
 
+    // @ts-ignore
+    // @ts-ignore
     return (
       <>
             <Stack.Screen
@@ -96,7 +98,7 @@ export default function Index() {
                             }
                         >
                             <Text style={{ fontSize: 17, fontWeight: "600", color: "#007AFF" }}>
-                                { favorite ? " Remove ⭐️ " : " Add ⭐️ " }
+                                { favorite ? " Remove  " : " Add ⭐️ " }
                             </Text>
 
                         </Pressable>

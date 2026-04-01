@@ -1,17 +1,15 @@
 import { Stack } from "expo-router";
+import {useNavigationTheme} from "@/constants/navigationTheme";
 
 export default function HomeLayout() {
+    const navTheme = useNavigationTheme();
   return (
-    <Stack>
+    <Stack screenOptions={navTheme}>
       <Stack.Screen
         name="index"
         options={{
-          headerLargeTitle: true,
+         // headerLargeTitle: true,
           title: "Home",
-          headerSearchBarOptions: {
-            placeholder: "Search Pokemon",
-            
-          },
         }}
       />
     </Stack>

@@ -2,6 +2,8 @@ import { useLocalSearchParams, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View, Pressable, } from "react-native";
 import { useFavorites } from "@/context/favorites";
+import { useTheme } from "@/context/theme";
+import { colors } from "@/constants/theme";
 
 
     interface PokemonDetails{
@@ -69,7 +71,7 @@ export default function Index() {
         fetchPokemonDetails();
     }, [name]);
 
-    const colorByType = {
+    const colorByType: Record<string, string> = {
             grass: "lightgreen",
             water: "lightblue",
             fire: "#ff6666",
@@ -81,13 +83,15 @@ export default function Index() {
             fairy: "pink"
             }
 
-    // @ts-ignore
-    // @ts-ignore
-    // @ts-ignore
+
+            const { theme } = useTheme();
+            const t = colors[theme];
+
     return (
       <>
             <Stack.Screen
                 options={{
+
                     headerRight: () => pokemon ? (
                         <Pressable
                             onPress={() =>
@@ -98,7 +102,7 @@ export default function Index() {
                                 })
                             }
                         >
-                            <Text style={{ fontSize: 17, fontWeight: "600", color: "#007AFF" }}>
+                            <Text style={{ fontSize: 17, fontWeight: "600", color: t.accent }}>
                                 { favorite ? " Remove  " : " Add ⭐️ " }
                             </Text>
 
@@ -112,15 +116,16 @@ export default function Index() {
         gap: 10,
         padding: 8
       }}
+    style={{backgroundColor: t.background}}
    contentInsetAdjustmentBehavior="automatic"
    automaticallyAdjustContentInsets={true}> 
-          <Text></Text>
+          {loading && <Text style={{color: t.secondaryText, padding: 8}}>Loading Pokemon...</Text>}
+          {error && <Text style={{color: t.destructive, padding: 8}}>{error}</Text>}
           {pokemon && ( //error ako jo nije fetch prošao da ne bude sve blank
-              //@ts-ignore
-              <View style={{ backgroundColor: colorByType[pokemon.types[0].type.name], borderRadius: 25 }}>
-                 <Text style={{ fontSize: 20, fontWeight: "700", textAlign: "left", padding: 12 }}>#{pokemon.id}</Text>
-                  <Text style={styles.name}>{pokemon.name}</Text>
-                    <Text style={styles.text}>{pokemon.types.map((t, index) => (
+              <View style={{ backgroundColor: colorByType[pokemon.types[0].type.name] ?? t.card, borderRadius: 25 }}>
+                 <Text style={{ fontSize: 20, fontWeight: "700", textAlign: "left", padding: 12, color: "black" }}>#{pokemon.id}</Text>
+                  <Text style={[styles.name, {color: "black"}]}>{pokemon.name}</Text>
+                    <Text style={[styles.name, {color: "black"}]}>{pokemon.types.map((t, index) => (
                       <Text key={index}>
                           {t.type.name}
                           {index !== pokemon.types.length - 1 ? "," : ""}
@@ -137,22 +142,22 @@ export default function Index() {
                       />
                   </View>
                   <View style={{ flexDirection: "row", justifyContent:"center", gap:12 }}>
-                      <Text style={styles.wh}>Pokemon height: {pokemon.height}</Text>
-                      <Text style={styles.wh}>Pokemon weight: {pokemon.weight}</Text>
+                      <Text style={[styles.wh, {color: "black"}]}>Pokemon height: {pokemon.height}</Text>
+                      <Text style={[styles.wh, {color: "black"}]}>Pokemon weight: {pokemon.weight}</Text>
                   </View>
-                  <Text style={styles.heding}>Stats:</Text>
+                  <Text style={[styles.heding, {color: "black"}]}>Stats:</Text>
                   <View>
                       {pokemon.stats.map((s, index) => (
-                          <Text style={styles.stats} key={index}>
-                            <Text style={{fontWeight: "800"}}>{s.stat.name}: </Text>   {s.base_stat}
+                          <Text style={[styles.stats, {color: "black"}]} key={index}>
+                            <Text style={{fontWeight: "800", color: "black"}}>{s.stat.name}: </Text>   {s.base_stat}
                           </Text>
                       ))}
                   </View>
-                   <Text style={styles.heding}>Abilites:</Text>
+                   <Text style={[styles.heding, {color: "black"}]}>Abilites:</Text>
                   <View>
                       {pokemon.abilities.map((s, index) => (
-                          <Text style={styles.stats} key={index}>
-                             {index+1}. <Text style={{ fontWeight: "800" }}> {s.ability.name}</Text>   
+                          <Text style={[styles.stats, {color: "black"}]} key={index}>
+                             {index+1}. <Text style={{ fontWeight: "800", color: "black" }}> {s.ability.name}</Text>
                           </Text>
                       ))}
                   </View>

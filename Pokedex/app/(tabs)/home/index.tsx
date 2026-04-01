@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Link, Stack } from "expo-router";
+import { useTheme } from "@/context/theme";
+import { colors } from "@/constants/theme";
+
 
 interface Poke {
   name: string;
@@ -69,6 +72,9 @@ export default function HomeIndex() {
     );
   }, [pokemons, search]);
 
+  const { theme } = useTheme();
+  const t = colors[theme];
+
   return (
     <>
       <Stack.Screen
@@ -82,6 +88,7 @@ export default function HomeIndex() {
         }}
       />
       <ScrollView
+          style={{backgroundColor: t.background}}
         contentContainerStyle={{
           gap: 10,
           padding: 8,

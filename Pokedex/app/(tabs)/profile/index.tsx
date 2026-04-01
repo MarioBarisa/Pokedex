@@ -1,7 +1,8 @@
 import {Text, ScrollView, StyleSheet, TextInput, View, Button, Alert} from "react-native";
 import { useState } from "react";
 import { useFavorites } from "@/context/favorites";
-import {name} from "ts-interface-checker";
+import { useTheme } from "@/context/theme";
+import { colors } from "@/constants/theme";
 
 
 export default function FavoritesScreen() {
@@ -10,18 +11,20 @@ export default function FavoritesScreen() {
   let [loggedIn, setLoggedIn] = useState(false);
   let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
+  const { theme } = useTheme();
+  const t = colors[theme];
 
 
   return (
 
-      <ScrollView>
-        <Text style={styles.textMain}>{loggedIn ? "Hello, " + username + "!" : "You are not logged in."}</Text>
+      <ScrollView style={{backgroundColor: t.background}}>
+        <Text style={[styles.textMain, {color: t.text}]}>{loggedIn ? "Hello, " + username + "!" : "You are not logged in."}</Text>
         {loggedIn && (
             <View>
-               <Text style={styles.textBody}>Number of favorites: {favorites.length}</Text>
+               <Text style={[styles.textBody, {color: t.text}]}>Number of favorites: {favorites.length}</Text>
                <Button
                    title={"Logut"}
-                   color={"red"}
+                   color={t.destructive}
                    onPress={()=>{
                      setLoggedIn(false);
                      Alert.alert("Logged out", "You are logged out.")
@@ -31,28 +34,29 @@ export default function FavoritesScreen() {
 
         {!loggedIn && (
             <View>
-              <Text style={styles.textBodyCenterHiglighted}>Please make an account or log in.</Text>
+              <Text style={[styles.textBodyCenterHiglighted, {color: t.accent}]}>Please make an account or log in.</Text>
               <View style={{padding: 15, gap: 8, marginTop: 10}}>
                 <TextInput
                     placeholder="Pokedex Username"
-                    placeholderTextColor="rgba(60, 60, 67, 0.3)"
+                    placeholderTextColor={t.secondaryText}
                     clearButtonMode="unless-editing"
-                    style={styles.systemInput}
+                    style={[styles.systemInput, {color: t.text}]}
                     onChangeText={setUsername}
                 />
                 <TextInput
                     placeholder="Pokedex Password"
-                    placeholderTextColor="rgba(60, 60, 67, 0.3)"
+                    placeholderTextColor={t.secondaryText}
                     clearButtonMode="unless-editing"
-                    style={styles.systemInput}
+                    style={[styles.systemInput, {color: t.text}]}
                     onChangeText={setPassword}
                 />
 
                 <Button
                     accessibilityLabel="Login button"
                     title={"Login"}
+                    color={t.accent}
                     onPress={() => {
-                      if(password==""){
+                      if(password === ""){
                         Alert.alert("Missing password", "Please enter a valid password.")
                       }else{
                         setLoggedIn(true);
@@ -108,7 +112,6 @@ const styles = StyleSheet.create({
       paddingVertical: 7,
       fontSize: 17,
       marginHorizontal: 16,
-      color: "#000"
     },
 
 });

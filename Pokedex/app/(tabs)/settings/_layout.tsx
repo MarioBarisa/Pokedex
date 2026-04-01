@@ -1,13 +1,15 @@
 import { Stack } from "expo-router";
+import {useNavigationTheme} from "@/constants/navigationTheme";
 
 export default function FavoritesLayout() {
-  return (
-    <Stack>
+    const navTheme = useNavigationTheme();
+    return (
+    <Stack screenOptions={navTheme}>
       <Stack.Screen
         name="index"
         options={{
-          headerLargeTitle: true,
-          title: "Settings",
+          // headerLargeTitle: true,
+           title: "Settings",
         }}
       />
     </Stack>
